@@ -161,11 +161,14 @@ try:
                 #leere liste erstellen um objekte vergleichen zu können
                 old_object_names = []
 
+                #history_array = []
+
+
                 while True:
 
                     # count_inference
                     count_inference = count_inference + 1
-                    print(count_inference)
+                    ##print(count_inference)
 
                     ret, image_np = cap.read()
                     # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
@@ -196,9 +199,9 @@ try:
                         if output_dict['detection_scores'] is None or final_score[i] > 0.5:
                             count = count + 1
 
-                    print('number of detected obj: ', count)
+                    ##print('number of detected obj: ', count)
                     counted_objects = int(count)
-                    server.send(message='position', data={'x': counted_objects})
+                    server.send(message='objects', data={'x': counted_objects})
 
                     # schleife um erkannte labels ausgeben
                     printcount = 0
@@ -214,14 +217,17 @@ try:
                         #sortieren (macht es im frontend einfacher)
                         current_object_names = sorted(current_object_names, key=str.lower)
 
-                        print('old_object_names: ', old_object_names)
-                        print('current_object_names: ', current_object_names)
+                        #history_array.append([count_inference, current_object_names])
+
+                        #print('old_object_names: ', old_object_names)
+                        #print('current_object_names: ', current_object_names)
+                        ###print('history_array: ', history_array)
 
                         if counted_objects >= 1:
                             if old_object_names != current_object_names:
-                                print("changed")
+                                #print("objects changed")
 
-                                server.send(message='position', data={'names': current_object_names})
+                                server.send(message='objects', data={'names': current_object_names})
 
                                 #alte überschreiben
                                 old_object_names = current_object_names

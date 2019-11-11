@@ -1,17 +1,76 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Websocket Client</title>
-		<script src="socket.io.js"></script>
-		<script src="code.js"></script>
-	</head>
-	<body onload="initialize()">
+<head>
+    <title>Malica - Musik mit Objekterkennung</title>
 
-	<h1>Test der Objekterkennung</h1>
-	<p id="countItems">0</p>
-		<br>
-		<br>
-		<br>
-		<p id="names">names</p>
-	</body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body onload="initialize()">
+
+<h1>Malica - Musik mit Objekterkennung</h1>
+
+
+<label class="badge badge-info" id="countItems">0</label>
+
+<div id="container" class="container">
+<!--    <button class="btn btn-primary" id="playStopButton">Play Tracks</button>-->
+
+    <div class="d-none card mb-2" id="cup">
+        <div class="card-header">cup
+            <div class="card-body">
+                <div>
+                    <button class="btn btn-primary" id="cup-muteButton">ON</button>
+                    Gain
+                    <input type="range" min="0" max="100" value="10" class="slider" id="cup-gainSlider">
+                    <span id="cup-gainOutput">1.0 dB</span>
+				</div>
+            </div>
+        </div>
+    </div>
+    <div class="d-none card mb-2" id="cell phone">
+        <div class="card-header">cell phone
+            <div class="card-body">
+                <div>
+                    <button class="btn btn-primary" id="cellphone-muteButton">ON</button>
+                    Gain
+                    <input type="range" min="0" max="100" value="10" class="slider" id="cellphone-gainslider">
+                    <span id="cellphone-gainoutput">1.0 dB</span>
+				</div>
+            </div>
+        </div>
+    </div>
+    <div class="d-none card mb-2" id="laptop">
+        <div class="card-header">laptop
+            <div class="card-body">
+                <div>
+                    <button class="btn btn-primary" id="laptop-muteButton">ON</button>
+                    Gain
+                    <input type="range" min="0" max="100" value="10" class="slider" id="laptop-gainSlider">
+                    <span id="laptop-gainOutput">1.0 dB</span>
+				</div>
+            </div>
+        </div>
+    </div>
+    <div class="d-none card mb-2" id="person">
+        <div class="card-header">person
+            <div class="card-body">
+                <div>
+                    <button class="btn btn-primary" id="person-muteButton">ON</button>
+                    Gain
+                    <input type="range" min="0" max="100" value="10" class="slider" id="person-gainSlider">
+                    <span id="person-gainOutput">1.0 dB</span>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+
+<script src="socket.io.js"></script>
+<script src="receiveObjectsOnSocket.js"></script>
+<script src="sound.js"></script>
 </html>
