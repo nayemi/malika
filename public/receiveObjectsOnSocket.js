@@ -9,6 +9,7 @@ function initialize() {
         }
 
         let container = document.getElementById("container");
+        let drumsInitalPlayed = false;
 
         if (data.names !== undefined) {
 
@@ -23,6 +24,16 @@ function initialize() {
 
                     //sichtbar machen der Tonspuren im Browser
                     elementExists.classList.remove('d-none');
+
+                    // if(!drumsInitalPlayed && element === 'person'){
+                    //     console.log(drumsInitalPlayed);
+                    //     drumsInitalPlayed = true;
+                    //     drumsSound.play();
+                    //     drumsMuteButton.innerHTML = "OFF";
+                    // }
+
+
+
                 }
 
             });

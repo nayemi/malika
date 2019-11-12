@@ -29,30 +29,6 @@
             </div>
         </div>
     </div>
-    <div class="d-none card mb-2" id="cell phone">
-        <div class="card-header">cell phone
-            <div class="card-body">
-                <div>
-                    <button class="btn btn-primary" id="cellphone-muteButton">ON</button>
-                    Gain
-                    <input type="range" min="0" max="100" value="10" class="slider" id="cellphone-gainslider">
-                    <span id="cellphone-gainoutput">1.0 dB</span>
-				</div>
-            </div>
-        </div>
-    </div>
-    <div class="d-none card mb-2" id="laptop">
-        <div class="card-header">laptop
-            <div class="card-body">
-                <div>
-                    <button class="btn btn-primary" id="laptop-muteButton">ON</button>
-                    Gain
-                    <input type="range" min="0" max="100" value="10" class="slider" id="laptop-gainSlider">
-                    <span id="laptop-gainOutput">1.0 dB</span>
-				</div>
-            </div>
-        </div>
-    </div>
     <div class="d-none card mb-2" id="person">
         <div class="card-header">person
             <div class="card-body">
@@ -61,15 +37,39 @@
                     Gain
                     <input type="range" min="0" max="100" value="10" class="slider" id="person-gainSlider">
                     <span id="person-gainOutput">1.0 dB</span>
-				</div>
+                </div>
             </div>
         </div>
     </div>
+    <!--    <div class="d-none card mb-2" id="cell phone">-->
+    <!--        <div class="card-header">cell phone-->
+    <!--            <div class="card-body">-->
+    <!--                <div>-->
+    <!--                    <button class="btn btn-primary" id="cellphone-muteButton">ON</button>-->
+    <!--                    Gain-->
+    <!--                    <input type="range" min="0" max="100" value="10" class="slider" id="cellphone-gainslider">-->
+    <!--                    <span id="cellphone-gainoutput">1.0 dB</span>-->
+    <!--				</div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    <div class="d-none card mb-2" id="laptop">-->
+    <!--        <div class="card-header">laptop-->
+    <!--            <div class="card-body">-->
+    <!--                <div>-->
+    <!--                    <button class="btn btn-primary" id="laptop-muteButton">ON</button>-->
+    <!--                    Gain-->
+    <!--                    <input type="range" min="0" max="100" value="10" class="slider" id="laptop-gainSlider">-->
+    <!--                    <span id="laptop-gainOutput">1.0 dB</span>-->
+    <!--				</div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </div>
 
 </body>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="socket.io.js"></script>
 <script src="receiveObjectsOnSocket.js"></script>
 <script src="sound.js"></script>

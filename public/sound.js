@@ -7,7 +7,7 @@ let isPlaying = false;
 let context = new AudioContext();
 
 
-// cup = guitar
+// cup = Bass
 let guitarSound = new Audio("sounds/Bass.mp3");
 let isMuteGuitar = false;
 let guitarSource = context.createMediaElementSource(guitarSound);
@@ -50,6 +50,8 @@ let drumsGain = context.createGain();
 let drumsGainStore = 0;
 drumsSource.connect(drumsGain);
 drumsGain.connect(context.destination);
+
+
 
 drumsGainSlider = document.getElementById("person-gainSlider");
 drumsGainSlider.addEventListener("input", function (e) {
