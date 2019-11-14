@@ -6,6 +6,7 @@ import tarfile
 import tensorflow as tf
 import zipfile
 import cv2
+from collections import Counter
 
 import server
 #start server
@@ -69,37 +70,6 @@ with detection_graph.as_default():
 category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
 
-# objekte die mit einer genauigkeit von über 50% erkannt wurde werden gezählt und an den server-socket geschickt
-# def get_scores():
-#     final_score = np.squeeze(output_dict['detection_scores'])
-#     count = 0
-#     for i in range(100):
-#         if output_dict['detection_scores'] is None or final_score[i] > 0.5:
-#             count = count + 1
-#     print('number of detected obj: ', count)
-#
-#     counted_objects = int(count)
-#
-#     server.send(message='position', data={'x': counted_objects})
-#
-#     #print('detection_classes: ', output_dict['detection_classes'])
-#
-#     printcount = 0
-#     old_object_names = []
-#     current_object_names = []
-#     for i in output_dict['detection_classes']:
-#         printcount = printcount + 1
-#
-#         current_object_names.append(category_index[i]['name'])
-#         print('current_object_names: ', current_object_names)
-#
-#         if counted_objects >= 1:
-#             server.send(message='position', data={'names': current_object_names})
-#
-#         if (printcount == count):
-#             break
-#
-
 
 def run_inference_for_single_image(image, graph):
     if 'detection_masks' in tensor_dict:
@@ -162,7 +132,7 @@ try:
                 old_object_names = []
 
                 #history_array = []
-
+                current_object_names = []
 
                 while True:
 
@@ -199,7 +169,7 @@ try:
                         if output_dict['detection_scores'] is None or final_score[i] > 0.5:
                             count = count + 1
 
-                    ##print('number of detected obj: ', count)
+                    print('number of detected obj: ', count)
                     counted_objects = int(count)
                     server.send(message='objects', data={'x': counted_objects})
 
@@ -207,15 +177,17 @@ try:
                     printcount = 0
 
                     # aktuelle objekte wieder leeren um sie neu zu befüllen
-                    current_object_names = []
+                    #current_object_names = []
+
                     for i in output_dict['detection_classes']:
                         printcount = printcount + 1
 
-                        #neue objekte des aktuellen frames
-                        current_object_names.append(category_index[i]['name'])
+                        if count > 0:
+                            #neue objekte des aktuellen frames hinzufügen
+                            current_object_names.append(category_index[i]['name'])
 
-                        #sortieren (macht es im frontend einfacher)
-                        current_object_names = sorted(current_object_names, key=str.lower)
+                            #sortieren (macht es im frontend einfacher)
+                            current_object_names = sorted(current_object_names, key=str.lower)
 
                         #history_array.append([count_inference, current_object_names])
 
@@ -223,14 +195,25 @@ try:
                         #print('current_object_names: ', current_object_names)
                         ###print('history_array: ', history_array)
 
-                        if counted_objects >= 1:
-                            if old_object_names != current_object_names:
-                                #print("objects changed")
+                        if count_inference == 24:
+                            print("count_inference: ", count_inference)
+                            print('current_object_names: ', current_object_names)
+                            #print(Counter(current_object_names))
 
-                                server.send(message='objects', data={'names': current_object_names})
+                            counter_arr = Counter(current_object_names)
+                            person = 'person'
+                            num_person = counter_arr[person]
+                            if num_person >= 10:
+                                print('person detected')
+                            else:
+                                print('person lost')
+                                ##server.send(message='objects', data={'names': current_object_names})
 
+                            #delete state
+                            current_object_names = []
+                            count_inference = 0
                                 #alte überschreiben
-                                old_object_names = current_object_names
+                                #old_object_names = current_object_names
 
                         if (printcount == count):
                             break
