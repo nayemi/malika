@@ -66,12 +66,12 @@ drumsMuteButton.addEventListener("click", function (e) {
     if (isMuteDrums) {
         drumsGain.gain.value = 0;
         this.innerHTML = "ON";
-        drumsSound.pause();
+        //drumsSound.pause();
         console.log("mute drums = "+ isMuteDrums);
     } else {
         drumsGain.gain.value = drumsGainStore;
         this.innerHTML = "OFF";
-         drumsSound.play();
+         //drumsSound.play();
     }
     isMuteDrums = !isMuteDrums;
 });
