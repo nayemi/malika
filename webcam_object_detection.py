@@ -5,10 +5,11 @@ import cv2
 from collections import Counter
 
 import server
+
 # start server
 server.start()
 
-#import object detection utils
+# import object detection utils
 from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
@@ -36,6 +37,7 @@ with detection_graph.as_default():
 category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
 
+# algorithmus um ein einzelnes bild zu analysieren.
 def run_inference_for_single_image(image, graph):
     if 'detection_masks' in tensor_dict:
         # The following processing is only for single image
@@ -72,7 +74,7 @@ def run_inference_for_single_image(image, graph):
     return output_dict
 
 
-# webcam frames erkennen
+# webcam frames mit OpenCV erkennen
 cap = cv2.VideoCapture(0)
 try:
     with detection_graph.as_default():
@@ -90,20 +92,16 @@ try:
                     tensor_dict[key] = tf.compat.v1.get_default_graph().get_tensor_by_name(
                         tensor_name)
 
-            # count_inference
+            # count_inference = aktueller Durchlauf
             count_inference = 0
 
-            # leere liste erstellen um objekte vergleichen zu können
-            old_object_names = []
-
-            # history_array = []
+            # array für aktuelle objekte
             current_object_names = []
 
             while True:
 
-                # count_inference
+                # count_inference inkrementieren
                 count_inference = count_inference + 1
-                ##print(count_inference)
 
                 ret, image_np = cap.read()
                 # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
@@ -141,9 +139,6 @@ try:
                 # schleife um erkannte labels ausgeben
                 printcount = 0
 
-                # aktuelle objekte wieder leeren um sie neu zu befüllen
-                # current_object_names = []
-
                 for i in output_dict['detection_classes']:
                     printcount = printcount + 1
 
@@ -151,34 +146,38 @@ try:
                         # neue objekte des aktuellen frames hinzufügen
                         current_object_names.append(category_index[i]['name'])
 
-                        # sortieren (macht es im frontend einfacher)
+                        # sortieren
                         current_object_names = sorted(current_object_names, key=str.lower)
 
-                    # history_array.append([count_inference, current_object_names])
+                    if count_inference == 15:
+                        # print("count_inference: ", count_inference)
+                        # print('current_object_names: ', current_object_names)
 
-                    # print('old_object_names: ', old_object_names)
-                    # print('current_object_names: ', current_object_names)
-                    ###print('history_array: ', history_array)
-
-                    if count_inference == 24:
-                        print("count_inference: ", count_inference)
-                        print('current_object_names: ', current_object_names)
-                        # print(Counter(current_object_names))
-
+                        # häufigkeitsanalyse der wörter
                         counter_arr = Counter(current_object_names)
-                        person = 'person'
-                        num_person = counter_arr[person]
-                        if num_person >= 10:
-                            print('person detected')
-                        else:
-                            print('person lost')
-                            ##server.send(message='objects', data={'names': current_object_names})
+                        possible_obj = ['person', 'bottle', 'cup', 'keyboard', 'clock']
+
+                        for item in range(len(possible_obj)):
+                            current_item_count = counter_arr[possible_obj[item]]
+                            # print('current_item_count', current_item_count)
+                            # print('possible_obj[item]', possible_obj[item])
+
+                            if current_item_count >= 8:
+                                server.send(message='objects', data={str(possible_obj[item]): 1})
+                            else:
+                                server.send(message='objects', data={str(possible_obj[item]): 0})
+                        # num_person = counter_arr['person']
+                        # if num_person >= 8:
+                        #     print('person detected')
+                        #     server.send(message='objects', data={'person': 1})
+                        # else:
+                        #     print('person lost')
+                        #     server.send(message='objects', data={'person': 0})
 
                         # delete state
                         current_object_names = []
                         count_inference = 0
-                        # alte überschreiben
-                        # old_object_names = current_object_names
+                        # alte werte überschreiben
 
                     if (printcount == count):
                         break
