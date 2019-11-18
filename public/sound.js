@@ -8,6 +8,9 @@ let context = new AudioContext();
 
 
 // cup = Bass
+cup_sound = false;
+
+
 let guitarSound = new Audio("sounds/Bass.mp3");
 let isMuteGuitar = false;
 let guitarSource = context.createMediaElementSource(guitarSound);
@@ -24,25 +27,33 @@ guitarGainSlider.addEventListener("input", function (e) {
     guitarGain.gain.value = gainValue;
 });
 
-guitarMuteButton = document.getElementById('cup-muteButton');
-guitarMuteButton.addEventListener("click", function (e) {
-    guitarGainStore = (guitarGainSlider.value / 10);
-    if (isMuteGuitar) {
-        guitarGain.gain.value = 0;
-        this.innerHTML = "ON";
-        guitarSound.pause();
-        console.log("Mute guitar = "+ isMuteGuitar);
-    } else {
-        guitarGain.gain.value = guitarGainStore;
-        this.innerHTML = "OFF";
-         guitarSound.play();
-    }
-    isMuteGuitar = !isMuteGuitar;
-});
+// if(cup_sound){
+//     guitarGain.gain.value = 10;
+// } else {
+//     guitarGain.gain.value = 0;
+// }
+
+// guitarMuteButton = document.getElementById('cup-muteButton');
+// guitarMuteButton.addEventListener("click", function (e) {
+//     guitarGainStore = (guitarGainSlider.value / 10);
+//     if (isMuteGuitar) {
+//         guitarGain.gain.value = 0;
+//         this.innerHTML = "ON";
+//         guitarSound.pause();
+//         console.log("Mute guitar = "+ isMuteGuitar);
+//     } else {
+//         guitarGain.gain.value = guitarGainStore;
+//         this.innerHTML = "OFF";
+//          guitarSound.play();
+//     }
+//     isMuteGuitar = !isMuteGuitar;
+// });
 
 
 
 // person = drums
+person_sound = false;
+
 let drumsSound = new Audio("sounds/Drums.mp3");
 let isMuteDrums = false;
 let drumsSource = context.createMediaElementSource(drumsSound);
@@ -60,21 +71,28 @@ drumsGainSlider.addEventListener("input", function (e) {
     drumsGain.gain.value = drumGainValue;
 });
 
-drumsMuteButton = document.getElementById('person-muteButton');
-drumsMuteButton.addEventListener("click", function (e) {
-    drumsGainStore = (drumsGainSlider.value / 10);
-    if (isMuteDrums) {
-        drumsGain.gain.value = 0;
-        this.innerHTML = "ON";
-        //drumsSound.pause();
-        console.log("mute drums = "+ isMuteDrums);
-    } else {
-        drumsGain.gain.value = drumsGainStore;
-        this.innerHTML = "OFF";
-         //drumsSound.play();
-    }
-    isMuteDrums = !isMuteDrums;
-});
+
+/*if(person_sound){
+    guitarGain.gain.value = 10;
+} else {
+    guitarGain.gain.value = 0;
+}*/
+
+//drumsMuteButton = document.getElementById('person-muteButton');
+// drumsMuteButton.addEventListener("click", function (e) {
+//     drumsGainStore = (drumsGainSlider.value / 10);
+//     if (isMuteDrums) {
+//         drumsGain.gain.value = 0;
+//         this.innerHTML = "ON";
+//         //drumsSound.pause();
+//         console.log("mute drums = "+ isMuteDrums);
+//     } else {
+//         drumsGain.gain.value = drumsGainStore;
+//         this.innerHTML = "OFF";
+//          //drumsSound.play();
+//     }
+//     isMuteDrums = !isMuteDrums;
+// });
 
 
 
@@ -82,23 +100,35 @@ drumsMuteButton.addEventListener("click", function (e) {
 
 //Event Listener für den globalen Play und Stop-Button
 
-// playStopButton.addEventListener("click", function (e) {
-//     if (isPlaying) {
-//         guitarSound.pause();
-//         guitarMuteButton.innerHTML = "Play";
-//         drumsSound.pause();
-//         drumsMuteButton.innerHTML = "Play";
-//
-//         playStopButton.innerHTML = "Play Tracks";
-//     } else {
-//         guitarSound.play();
-//         guitarMuteButton.innerHTML = "Pause";
-//         drumsSound.play();
-//         drumsMuteButton.innerHTML = "Pause";
-//
-//
-//         playStopButton.innerHTML = "Stop Tracks";
-//     }
-//
-//     isPlaying = !isPlaying;
-// });
+playStopButton.addEventListener("click", function (e) {
+    if (isPlaying) {
+        guitarSound.pause();
+        //guitarMuteButton.innerHTML = "Play";
+        drumsSound.pause();
+        //drumsMuteButton.innerHTML = "Play";
+
+        playStopButton.innerHTML = "Play Tracks";
+    } else {
+        guitarSound.play();
+        //guitarMuteButton.innerHTML = "Pause";
+        drumsSound.play();
+        //drumsMuteButton.innerHTML = "Pause";
+
+
+        playStopButton.innerHTML = "Stop Tracks";
+    }
+
+    isPlaying = !isPlaying;
+});
+
+
+
+function ckeckMute(){
+
+    if ((" " + guitarGainSlider.className + " ").replace(/[\n\t]/g, " ").indexOf("mute") > -1) {
+         guitarGain.gain.value = 10;
+    } else {
+        guitarGain.gain.value = 0;
+    }
+
+}

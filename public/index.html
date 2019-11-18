@@ -10,18 +10,23 @@
 <body onload="initialize()">
 
 <h1>Malica - Musik mit Objekterkennung</h1>
+<div class="container">
+
+    <div class="card">
+        <div class="alert alert-success" role="alert" id="socket">offline</div>
+        <div class="alert alert-info" role="alert"  id="countItems">0</div>
+    </div>
+</div>
 
 
-<label class="badge badge-info" id="countItems">0</label>
 
 <div id="container" class="container">
-<!--    <button class="btn btn-primary" id="playStopButton">Play Tracks</button>-->
+<button class="btn btn-primary" id="playStopButton">Play Tracks</button>
 
-    <div class="d-none card mb-2" id="cup">
+    <div class="bg-light card mb-2" id="cup">
         <div class="card-header">cup
             <div class="card-body">
                 <div>
-                    <button class="btn btn-primary" id="cup-muteButton">ON</button>
                     Gain
                     <input type="range" min="0" max="100" value="10" class="slider" id="cup-gainSlider">
                     <span id="cup-gainOutput">1.0 dB</span>
@@ -29,11 +34,10 @@
             </div>
         </div>
     </div>
-    <div class="d-none card mb-2" id="person">
+    <div class="bg-light card mb-2" id="person">
         <div class="card-header">person
             <div class="card-body">
                 <div>
-                    <button class="btn btn-primary" id="person-muteButton">ON</button>
                     Gain
                     <input type="range" min="0" max="100" value="10" class="slider" id="person-gainSlider">
                     <span id="person-gainOutput">1.0 dB</span>
@@ -42,11 +46,10 @@
         </div>
     </div>
 
-    <div class="d-none card mb-2" id="bottle">
+    <div class="bg-light card mb-2" id="bottle">
         <div class="card-header">bottle
             <div class="card-body">
                 <div>
-                    <button class="btn btn-primary" id="bottle-muteButton">ON</button>
                     Gain
                     <input type="range" min="0" max="100" value="10" class="slider" id="bottle-gainSlider">
                     <span id="bottle-gainOutput">1.0 dB</span>
@@ -55,11 +58,10 @@
         </div>
     </div>
 
-    <div class="d-none card mb-2" id="keyboard">
+    <div class="bg-light card mb-2" id="keyboard">
         <div class="card-header">keyboard
             <div class="card-body">
                 <div>
-                    <button class="btn btn-primary" id="keyboard-muteButton">ON</button>
                     Gain
                     <input type="range" min="0" max="100" value="10" class="slider" id="keyboard-gainSlider">
                     <span id="keyboard-gainOutput">1.0 dB</span>
@@ -68,11 +70,10 @@
         </div>
     </div>
 
-    <div class="d-none card mb-2" id="clock">
+    <div class="bg-light card mb-2" id="clock">
         <div class="card-header">clock
             <div class="card-body">
                 <div>
-                    <button class="btn btn-primary" id="clock-muteButton">ON</button>
                     Gain
                     <input type="range" min="0" max="100" value="10" class="slider" id="clock-gainSlider">
                     <span id="clock-gainOutput">1.0 dB</span>
@@ -81,12 +82,25 @@
         </div>
     </div>
 
-</div>
+    <div class="bg-light card mb-2" id="mouse">
+        <div class="card-header">mouse
+            <div class="card-body">
+                <div>
+                    Gain
+                    <input type="range" min="0" max="100" value="10" class="slider" id="mouse-gainSlider">
+                    <span id="mouse-gainOutput">1.0 dB</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</body>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="socket.io.js"></script>
-<script src="receiveObjectsOnSocket.js"></script>
 <script src="sound.js"></script>
+<script src="receiveObjectsOnSocket.js"></script>
+
+
+</body>
 </html>

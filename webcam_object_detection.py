@@ -25,6 +25,11 @@ PATH_TO_LABELS = os.path.join(
     'object_detection/data',
     'mscoco_label_map.pbtxt')
 
+# Anzahl Frames im Counter-Array
+FRAMES = 15
+#Schwellwert
+THRESHOLD = 8
+
 # load detection graph
 detection_graph = tf.Graph()
 with detection_graph.as_default():
@@ -149,20 +154,20 @@ try:
                         # sortieren
                         current_object_names = sorted(current_object_names, key=str.lower)
 
-                    if count_inference == 15:
+                    if count_inference == FRAMES:
                         # print("count_inference: ", count_inference)
                         # print('current_object_names: ', current_object_names)
 
                         # häufigkeitsanalyse der wörter
                         counter_arr = Counter(current_object_names)
-                        possible_obj = ['person', 'bottle', 'cup', 'keyboard', 'clock']
+                        possible_obj = ['person', 'bottle', 'cup', 'keyboard', 'clock', 'mouse']
 
                         for item in range(len(possible_obj)):
                             current_item_count = counter_arr[possible_obj[item]]
                             # print('current_item_count', current_item_count)
                             # print('possible_obj[item]', possible_obj[item])
 
-                            if current_item_count >= 8:
+                            if current_item_count >= THRESHOLD:
                                 server.send(message='objects', data={str(possible_obj[item]): 1})
                             else:
                                 server.send(message='objects', data={str(possible_obj[item]): 0})
