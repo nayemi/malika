@@ -5,9 +5,11 @@ isPlaying = false;
 // globaler audio context
 let context = new AudioContext();
 
+
 //**********************
 // cup = Bass
 let guitarSound = new Audio("sounds/Bass.mp3");
+wavesurfer.load('sounds/Bass.mp3');
 let isMuteGuitar = false;
 let guitarSource = context.createMediaElementSource(guitarSound);
 let guitarGain = context.createGain();
@@ -136,4 +138,12 @@ playStopButton.addEventListener("click", function (e) {
     }
 
     isPlaying = !isPlaying;
+});
+
+//**********************
+//Objekt für den wavesufer 
+var wavesurfer = WaveSurfer.create({
+    container: '#waveform',
+    waveColor: 'violet',
+    progressColor: 'purple'
 });
