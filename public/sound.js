@@ -7,22 +7,92 @@ let context = new AudioContext();
 
 //**********************
 // cup = Bass
-let guitarSound = new Audio("sounds/Bass.mp3");
-let isMuteGuitar = false;
-let guitarSource = context.createMediaElementSource(guitarSound);
-let guitarGain = context.createGain();
-guitarSource.connect(guitarGain);
-guitarGain.connect(context.destination);
+let bassSound = new Audio("sounds/Bass.mp3");
+let isMuteBass = false;
+let bassSource = context.createMediaElementSource(bassSound);
+let bassGain = context.createGain();
+var bassFilter = context.createBiquadFilter();
+var bassConvolver = context.createConvolver();
+bassFilter.type = 'allpass';
+bassSource.connect(bassFilter);
+bassFilter.connect(bassGain);
+bassGain.connect(context.destination);
 
-//let guitarGainStore = guitarGain.gain.value;
+//let bassGainStore = bassGain.gain.value;
 
-// listener für den bass slider
-guitarGainSlider = document.getElementById("cup-gainSlider");
-guitarGainSlider.addEventListener("input", function (e) {
+// listener für den bass gain slider
+bassGainSlider = document.getElementById("bassGainSlider");
+bassGainSlider.addEventListener("input", function (e) {
     let gainValue = (this.value / 10);
-    document.getElementById("cup-gainOutput").innerHTML = gainValue + " dB";
-    guitarGain.gain.value = gainValue;
+    document.getElementById("bassGainOutput").innerHTML = gainValue + " dB";
+    bassGain.gain.value = gainValue;
 });
+
+// listener für den bass freq slider
+var bassFrequencySlider = document.getElementById("bassFrequencySlider");
+bassFrequencySlider.addEventListener("input", function (e) {
+    bassFilter.frequency.value = (this.value);
+    document.getElementById("bassFrequencyOutput").innerHTML = (this.value) + " Hz";
+});
+
+// Bass Filter
+var bassFilterSelectList = document.getElementById("bassFilterSelectList");
+bassFilterSelectList.addEventListener("change", function(e){
+    bassFilter.type = bassFilterSelectList.options[bassFilterSelectList.selectedIndex].value;
+});
+
+// Bass Convolver
+var bassConvolverSelectList = document.getElementById("bassConvolverSelectList");
+
+//loadImpulseResponse("cave");
+
+bassConvolverSelectList.addEventListener("change", function(e){
+    var name = bassConvolverSelectList.options[bassConvolverSelectList.selectedIndex].value;
+    var bassConvolverOn = false;
+    if(name.includes("off")){
+        bassFilter.disconnect(bassConvolver);
+        bassConvolver.disconnect(bassGain);
+        bassFilter.connect(bassGain);
+    }
+    else{
+        if(bassConvolverOn= false){
+            bassFilter.disconnect(bassGain);
+            bassFilter.connect(bassConvolver);
+            bassConvolver.connect(bassGain);
+        }
+        
+        loadImpulseResponse(name);
+    }
+});
+
+function loadImpulseResponse(name){
+    var request = new XMLHttpRequest();
+    request.open("GET",  ("sounds/impulseResponses/" + name + ".wav"), true);
+    request.responseType = "arraybuffer";
+
+    request.onload = function () {
+        var undecodedAudio = request.response;
+        context.decodeAudioData(undecodedAudio, function (buffer) {
+            if (bassConvolver) {bassConvolver.disconnect(); }
+            bassConvolver = context.createConvolver();
+            bassConvolver.buffer = buffer;
+            bassConvolver.normalize = true;
+            bassFilter.connect(bassConvolver);
+            bassConvolver.connect(bassGain);
+        });
+    };
+    request.send();
+}
+
+// listener für den bass quality slider
+var bassQualitySlider = document.getElementById("bassQualitySlider");
+bassQualitySlider.addEventListener("input", function (e) {
+    bassFilter.Q.value = (this.value);
+    document.getElementById("bassQualityOutput").innerHTML = (this.value) + " ";
+});
+
+
+
 
 //**********************
 // person = drums
@@ -109,9 +179,8 @@ vocalGainSlider.addEventListener("input", function (e) {
 //**********************
 //Event Listener für den globalen Play und Stop-Button
 playStopButton.addEventListener("click", function (e) {
-
     if (isPlaying) {
-        guitarSound.pause();
+        bassSound.pause();
         drumsSound.pause();
         seqSound.pause();
         padsSound.pause();
@@ -119,8 +188,8 @@ playStopButton.addEventListener("click", function (e) {
         vocalSound.pause();
         playStopButton.innerHTML = "Play Tracks";
     } else {
-        guitarSound.play();
-        guitarGain.gain.value = 0;
+        bassSound.play();
+        bassGain.gain.value = 0;
         drumsSound.play();
         drumsGain.gain.value = 0;
         seqSound.play();
@@ -131,9 +200,7 @@ playStopButton.addEventListener("click", function (e) {
         synthGain.gain.value = 0;
         vocalSound.play();
         vocalGain.gain.value = 0;
-
         playStopButton.innerHTML = "Stop Tracks";
     }
-
     isPlaying = !isPlaying;
 });

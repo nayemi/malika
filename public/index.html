@@ -23,17 +23,50 @@
 <div id="container" class="container">
 <button class="btn btn-primary" id="playStopButton">Play Tracks</button>
 
+    
+
     <div class="bg-light card mb-2" id="cup">
         <div class="card-header">cup
             <div class="card-body">
                 <div>
                     Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="cup-gainSlider">
-                    <span id="cup-gainOutput">1.0 dB</span>
-				</div>
+                    <input type="range" min="0" max="100" value="0" class="slider" id="bassGainSlider">
+                    <span id="bassGainOutput">1.0 dB</span>
+                </div>
+                <div id="frequencyContainer"> Frequency
+                        <input type="range" min="1000" max="20000" value="1000" class="slider" id="bassFrequencySlider">
+                        <span id="bassFrequencyOutput">1000 Hz</span>
+                    </div>   
+                <div id="filterTypeContainer">Filter Type
+                    <select id="bassFilterSelectList">
+                        <option value="allpass">Allpass</option>
+                        <option value="lowpass">Lowpass</option>
+                        <option value="highpass">Highpass</option>
+                        <option value="bandpass">Bandpass</option>
+                        <option value="lowshelf">lowshelf</option>
+                        <option value="highshelf">highshelf</option>
+                        <option value="peaking">Peaking</option>
+                        <option value="notch">Notch</option>
+                    </select>
+                </div>
+                <div id="reverbContainer">Reverb Type
+                    <select id="bassConvolverSelectList">
+                        <option value="off">Deaktiviert</option>
+                        <option value="cave">Cave</option>
+                        <option value="church">Church</option>
+                        <option value="garage">Garage</option>
+                        <option value="room">Room</option>
+                    </select>
+                </div>
+                <div id="bassQContainer"> Quality
+                    <input type="range" min="0" max="100" value="0" class="slider" id="bassQualitySlider">
+                    <span id="bassQualityOutput">0</span>
+                </div>
             </div>
         </div>
     </div>
+    
+    
     <div class="bg-light card mb-2" id="person">
         <div class="card-header">person
             <div class="card-body">
