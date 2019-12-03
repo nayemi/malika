@@ -142,6 +142,7 @@ playStopButton.addEventListener("click", function (e) {
 
 //**********************
 //Objekt für den wavesufer 
+//https://wavesurfer-js.org/
 var wavesurfer = WaveSurfer.create({
     container: '#waveform',
     waveColor: 'violet',
