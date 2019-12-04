@@ -9,7 +9,6 @@ let context = new AudioContext();
 // cup = Bass
 let bassSound = new Audio("sounds/Bass.mp3");
 let isMuteBass = false;
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 let bassSource = context.createMediaElementSource(bassSound);
 let bassGain = context.createGain();
 var bassFilter = context.createBiquadFilter();
@@ -18,7 +17,6 @@ bassFilter.type = 'allpass';
 bassSource.connect(bassFilter);
 bassFilter.connect(bassGain);
 bassGain.connect(context.destination);
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 //let bassGainStore = bassGain.gain.value;
@@ -31,9 +29,6 @@ bassGainSlider.addEventListener("input", function (e) {
     bassGain.gain.value = gainValue;
 });
 
-
-
-//#####################################################################################################
 // listener für den bass freq slider
 var bassFrequencySlider = document.getElementById("bassFrequencySlider");
 bassFrequencySlider.addEventListener("input", function (e) {
@@ -96,8 +91,6 @@ bassQualitySlider.addEventListener("input", function (e) {
     bassFilter.Q.value = (this.value);
     document.getElementById("bassQualityOutput").innerHTML = (this.value) + " ";
 });
-//#####################################################################################################
-
 
 
 //**********************
