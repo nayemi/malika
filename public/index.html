@@ -83,9 +83,10 @@
                             <span id="bassQualityOutput">0</span>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div id="bassWaveform"></div>
+                    </div>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -101,7 +102,6 @@
                              class="music-instrument">
                     </div>
                     <div class="col-4">
-
                         <div>
                             Gain
                             <input type="range" min="0" max="100" value="0" class="slider" id="person-gainSlider">
@@ -138,8 +138,10 @@
                             <span id="drumsQualityOutput">0</span>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div id="drumsWaveform"></div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -191,6 +193,9 @@
                             <input type="range" min="0" max="100" value="0" class="slider" id="seqQualitySlider">
                             <span id="seqQualityOutput">0</span>
                         </div>
+                    </div>
+                    <div class="col-6">
+                        <div id="seqWaveform"></div>
                     </div>
                 </div>
 
@@ -245,8 +250,10 @@
                             <span id="padsQualityOutput">0</span>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div id="padsWaveform"></div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -299,8 +306,10 @@
                             <span id="synthQualityOutput">0</span>
                         </div>
                     </div>
+                      <div class="col-6">
+                        <div id="synthWaveform"></div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -352,8 +361,10 @@
                             <span id="vocalQualityOutput">0</span>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div id="vocalWaveform"></div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -362,6 +373,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="socket.io.js"></script>
+<script src="https://unpkg.com/wavesurfer.js"></script>
+<script src="waveforms.js"></script>
 <script src="sound.js"></script>
 <script src="receiveObjectsOnSocket.js"></script>
 <script src="features.js"></script>

@@ -567,6 +567,22 @@ playButton.addEventListener("click", function (e) {
         synthSound.play();
         vocalSound.play();
 
+        //visualizations
+        bassWavesurfer.play();
+        bassWavesurfer.setMute(true);
+        drumWavesurfer.play();
+        drumWavesurfer.setMute(true);
+        seqWavesurfer.play();
+        seqWavesurfer.setMute(true);
+        padsWavesurfer.play();
+        padsWavesurfer.setMute(true);
+        synthWavesurfer.play();
+        synthWavesurfer.setMute(true);
+        vocalWavesurfer.play();
+        vocalWavesurfer.setMute(true);
+
+
+        // button colors
         this.classList.remove('btn-secondary');
         this.classList.add('btn-info');
 
@@ -585,6 +601,15 @@ pauseButton.addEventListener("click", function (e) {
         synthSound.pause();
         vocalSound.pause();
 
+        //visual
+        bassWavesurfer.pause();
+        drumWavesurfer.pause();
+        seqWavesurfer.pause();
+        padsWavesurfer.pause();
+        synthWavesurfer.pause();
+        vocalWavesurfer.pause();
+
+        //buttons
         this.classList.remove('btn-secondary');
         this.classList.add('btn-info');
 
