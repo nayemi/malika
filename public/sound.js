@@ -1,5 +1,5 @@
 //globaler Play und Stop Button
-let playStopButton = document.getElementById("playStopButton");
+//let playStopButton = document.getElementById("playStopButton");
 isPlaying = false;
 
 // globaler audio context
@@ -22,10 +22,10 @@ bassGain.connect(context.destination);
 //let bassGainStore = bassGain.gain.value;
 
 // listener für den bass gain slider
-bassGainSlider = document.getElementById("bassGainSlider");
+bassGainSlider = document.getElementById("cup-gainSlider");
 bassGainSlider.addEventListener("input", function (e) {
     let gainValue = (this.value / 10);
-    document.getElementById("bassGainOutput").innerHTML = gainValue + " dB";
+    document.getElementById("cup-gainOutput").innerHTML = gainValue + " dB";
     bassGain.gain.value = gainValue;
 });
 
@@ -514,7 +514,69 @@ vocalQualitySlider.addEventListener("input", function (e) {
 
 //**********************
 //Event Listener für den globalen Play und Stop-Button
-playStopButton.addEventListener("click", function (e) {
+// playStopButton.addEventListener("click", function (e) {
+//     if (isPlaying) {
+//         bassSound.pause();
+//         drumsSound.pause();
+//         seqSound.pause();
+//         padsSound.pause();
+//         synthSound.pause();
+//         vocalSound.pause();
+//         playStopButton.innerHTML = "Play Tracks";
+//     } else {
+//         bassSound.play();
+//         bassGain.gain.value = 0;
+//         drumsSound.play();
+//         drumsGain.gain.value = 0;
+//         seqSound.play();
+//         seqGain.gain.value = 0;
+//         padsSound.play();
+//         padsGain.gain.value = 0;
+//         synthSound.play();
+//         synthGain.gain.value = 0;
+//         vocalSound.play();
+//         vocalGain.gain.value = 0;
+//         playStopButton.innerHTML = "Stop Tracks";
+//     }
+//     isPlaying = !isPlaying;
+// });
+
+
+let playButton = document.getElementById("playButton");
+let pauseButton = document.getElementById("pauseButton");
+
+let firstTime = true;
+
+playButton.addEventListener("click", function (e) {
+
+    if (!isPlaying) {
+        if(firstTime) {
+            bassGain.gain.value = 0; // only first time!!!
+            drumsGain.gain.value = 0;
+            seqGain.gain.value = 0;
+            padsGain.gain.value = 0;
+            synthGain.gain.value = 0;
+            vocalGain.gain.value = 0;
+            firstTime = false;
+        }
+
+        bassSound.play();
+        drumsSound.play();
+        seqSound.play();
+        padsSound.play();
+        synthSound.play();
+        vocalSound.play();
+
+        this.classList.remove('btn-secondary');
+        this.classList.add('btn-info');
+
+        pauseButton.classList.remove('btn-info');
+        pauseButton.classList.add('btn-secondary');
+    }
+    isPlaying = true;
+});
+pauseButton.addEventListener("click", function (e) {
+
     if (isPlaying) {
         bassSound.pause();
         drumsSound.pause();
@@ -522,21 +584,32 @@ playStopButton.addEventListener("click", function (e) {
         padsSound.pause();
         synthSound.pause();
         vocalSound.pause();
-        playStopButton.innerHTML = "Play Tracks";
-    } else {
-        bassSound.play();
-        bassGain.gain.value = 0;
-        drumsSound.play();
-        drumsGain.gain.value = 0;
-        seqSound.play();
-        seqGain.gain.value = 0;
-        padsSound.play();
-        padsGain.gain.value = 0;
-        synthSound.play();
-        synthGain.gain.value = 0;
-        vocalSound.play();
-        vocalGain.gain.value = 0;
-        playStopButton.innerHTML = "Stop Tracks";
+
+        this.classList.remove('btn-secondary');
+        this.classList.add('btn-info');
+
+        playButton.classList.remove('btn-info');
+        playButton.classList.add('btn-secondary');
     }
-    isPlaying = !isPlaying;
+    isPlaying = false;
 });
+
+
+// let stopButton = document.getElementById("stopButton");
+//
+// stopButton.addEventListener("click", function (e) {
+//
+//     console.log("clicked stop");
+//
+//
+//     bassSound.stop();
+//         drumsSound.stop();
+//         seqSound.stop();
+//         padsSound.stop();
+//         synthSound.stop();
+//         vocalSound.stop();
+//
+//         this.classList.remove('btn-secondary');
+//         this.classList.add('btn-info');
+//
+// });

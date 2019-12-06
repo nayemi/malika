@@ -61,7 +61,7 @@ function initialize() {
         if(isPlaying){
             setStatus('person', person_status, drumsGain);
             setStatus('bottle', bottle_status, seqGain);
-            setStatus('cup', cup_status, guitarGain);
+            setStatus('cup', cup_status, bassGain);
             setStatus('keyboard', keyboard_status, padsGain);
             setStatus('clock', clock_status, synthGain);
             setStatus('mouse', mouse_status, vocalGain);

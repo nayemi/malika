@@ -5,106 +5,141 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body onload="initialize()">
+<body class="bg-dark" onload="initialize()">
 
-<h1>Malica - Musik mit Objekterkennung</h1>
-<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
 
-    <div class="card">
-        <div class="alert alert-success" role="alert" id="socket">offline</div>
-        <div class="alert alert-info" role="alert"  id="countItems">0</div>
+    <a class="navbar-brand left" href="#">MALICA</a>
+
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-secondary" disabled ><i class="fas fa-fast-backward"></i></button>
+        <button type="button" class="btn btn-secondary" disabled ><i class="fas fa-fast-forward"></i></button>
+        <button type="button" class="btn btn-secondary" disabled id="stopButton"><i class="fas fa-stop"></i></button>
+        <button type="button" class="btn btn-secondary" id="playButton"><i class="fas fa-play"></i></button>
+        <button type="button" class="btn btn-secondary" id="pauseButton"><i class="fas fa-pause"></i></button>
     </div>
-</div>
 
+    <div class="btn-group pl-5" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-info disabled" id="countItems">Count: 0</button>
+        <button type="button" class="btn btn-secondary disabled" id="timer">
+            <time>00:00:00</time>
+        </button>
+        <button type="button" class="btn btn-info disabled">
+            Main Volume:
+            <input type="range" min="0" max="100" value="0" class="slider" disabled id="main-volume">
+        </button>
+    </div>
+</nav>
 
 
 <div id="container" class="container">
-<button class="btn btn-primary" id="playStopButton">Play Tracks</button>
 
-    
     <!-- Cup = Bass -->
-    <div class="bg-light card mb-2" id="cup">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="cup">
         <div class="card-header">cup
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="bassGainSlider">
-                    <span id="bassGainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/bass-guitar.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        <div>
+                            Gain
+                            <input type="range" min="0" max="100" value="0" class="slider" id="cup-gainSlider">
+                            <span id="cup-gainOutput">1.0 dB</span>
+                        </div>
+                        <div class="frequencyContainer"> Frequency
+                            <input type="range" min="1000" max="20000" value="1000" class="slider"
+                                   id="bassFrequencySlider">
+                            <span id="bassFrequencyOutput">1000 Hz</span>
+                        </div>
+                        <div class="filterTypeContainer">Filter Type
+                            <select id="bassFilterSelectList">
+                                <option value="allpass">Allpass</option>
+                                <option value="lowpass">Lowpass</option>
+                                <option value="highpass">Highpass</option>
+                                <option value="bandpass">Bandpass</option>
+                                <option value="lowshelf">lowshelf</option>
+                                <option value="highshelf">highshelf</option>
+                                <option value="peaking">Peaking</option>
+                                <option value="notch">Notch</option>
+                            </select>
+                        </div>
+                        <div class="reverbContainer">Reverb Type
+                            <select id="bassConvolverSelectList">
+                                <option value="off">Deaktiviert</option>
+                                <option value="cave">Cave</option>
+                                <option value="church">Church</option>
+                                <option value="garage">Garage</option>
+                                <option value="room">Room</option>
+                            </select>
+                        </div>
+                        <div id="bassQContainer"> Quality
+                            <input type="range" min="0" max="100" value="0" class="slider" id="bassQualitySlider">
+                            <span id="bassQualityOutput">0</span>
+                        </div>
+                    </div>
                 </div>
-                <div id="frequencyContainer"> Frequency
-                        <input type="range" min="1000" max="20000" value="1000" class="slider" id="bassFrequencySlider">
-                        <span id="bassFrequencyOutput">1000 Hz</span>
-                    </div>   
-                <div id="filterTypeContainer">Filter Type
-                    <select id="bassFilterSelectList">
-                        <option value="allpass">Allpass</option>
-                        <option value="lowpass">Lowpass</option>
-                        <option value="highpass">Highpass</option>
-                        <option value="bandpass">Bandpass</option>
-                        <option value="lowshelf">lowshelf</option>
-                        <option value="highshelf">highshelf</option>
-                        <option value="peaking">Peaking</option>
-                        <option value="notch">Notch</option>
-                    </select>
-                </div>
-                <div id="reverbContainer">Reverb Type
-                    <select id="bassConvolverSelectList">
-                        <option value="off">Deaktiviert</option>
-                        <option value="cave">Cave</option>
-                        <option value="church">Church</option>
-                        <option value="garage">Garage</option>
-                        <option value="room">Room</option>
-                    </select>
-                </div>
-                <div id="bassQContainer"> Quality
-                    <input type="range" min="0" max="100" value="0" class="slider" id="bassQualitySlider">
-                    <span id="bassQualityOutput">0</span>
-                </div>
+
+
             </div>
         </div>
     </div>
     <!-- Cup = Bass ENDE-->
-    
+
     <!-- Person = Drums -->
-    <div class="bg-light card mb-2" id="person">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="person">
         <div class="card-header">person
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="person-gainSlider">
-                    <span id="person-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/drum.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+
+                        <div>
+                            Gain
+                            <input type="range" min="0" max="100" value="0" class="slider" id="person-gainSlider">
+                            <span id="person-gainOutput">1.0 dB</span>
+                        </div>
+                        <div class="frequencyContainer"> Frequency
+                            <input type="range" min="1000" max="20000" value="1000" class="slider"
+                                   id="drumsFrequencySlider">
+                            <span id="drumsFrequencyOutput">1000 Hz</span>
+                        </div>
+                        <div class="filterTypeContainer">Filter Type
+                            <select id="drumsFilterSelectList">
+                                <option value="allpass">Allpass</option>
+                                <option value="lowpass">Lowpass</option>
+                                <option value="highpass">Highpass</option>
+                                <option value="bandpass">Bandpass</option>
+                                <option value="lowshelf">lowshelf</option>
+                                <option value="highshelf">highshelf</option>
+                                <option value="peaking">Peaking</option>
+                                <option value="notch">Notch</option>
+                            </select>
+                        </div>
+                        <div class="reverbContainer">Reverb Type
+                            <select id="drumsConvolverSelectList">
+                                <option value="off">Deaktiviert</option>
+                                <option value="cave">Cave</option>
+                                <option value="church">Church</option>
+                                <option value="garage">Garage</option>
+                                <option value="room">Room</option>
+                            </select>
+                        </div>
+                        <div id="drumsQContainer"> Quality
+                            <input type="range" min="0" max="100" value="0" class="slider" id="drumsQualitySlider">
+                            <span id="drumsQualityOutput">0</span>
+                        </div>
+                    </div>
                 </div>
-                <div id="frequencyContainer"> Frequency
-                    <input type="range" min="1000" max="20000" value="1000" class="slider" id="drumsFrequencySlider">
-                    <span id="drumsFrequencyOutput">1000 Hz</span>
-                </div>   
-                <div id="filterTypeContainer">Filter Type
-                    <select id="drumsFilterSelectList">
-                        <option value="allpass">Allpass</option>
-                        <option value="lowpass">Lowpass</option>
-                        <option value="highpass">Highpass</option>
-                        <option value="bandpass">Bandpass</option>
-                        <option value="lowshelf">lowshelf</option>
-                        <option value="highshelf">highshelf</option>
-                        <option value="peaking">Peaking</option>
-                        <option value="notch">Notch</option>
-                    </select>
-                </div>
-                <div id="reverbContainer">Reverb Type
-                    <select id="drumsConvolverSelectList">
-                        <option value="off">Deaktiviert</option>
-                        <option value="cave">Cave</option>
-                        <option value="church">Church</option>
-                        <option value="garage">Garage</option>
-                        <option value="room">Room</option>
-                    </select>
-                </div>
-                <div id="drumsQContainer"> Quality
-                    <input type="range" min="0" max="100" value="0" class="slider" id="drumsQualitySlider">
-                    <span id="drumsQualityOutput">0</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -112,172 +147,213 @@
 
 
     <!-- Bottle = Sequences -->
-    <div class="bg-light card mb-2" id="bottle">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="bottle">
         <div class="card-header">bottle
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="bottle-gainSlider">
-                    <span id="bottle-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/mixer.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        <div>
+                            Gain
+                            <input type="range" min="0" max="100" value="0" class="slider" id="bottle-gainSlider">
+                            <span id="bottle-gainOutput">1.0 dB</span>
+                        </div>
+                        <div class="frequencyContainer"> Frequency
+                            <input type="range" min="1000" max="20000" value="1000" class="slider"
+                                   id="seqFrequencySlider">
+                            <span id="seqFrequencyOutput">1000 Hz</span>
+                        </div>
+                        <div class="filterTypeContainer">Filter Type
+                            <select id="seqFilterSelectList">
+                                <option value="allpass">Allpass</option>
+                                <option value="lowpass">Lowpass</option>
+                                <option value="highpass">Highpass</option>
+                                <option value="bandpass">Bandpass</option>
+                                <option value="lowshelf">lowshelf</option>
+                                <option value="highshelf">highshelf</option>
+                                <option value="peaking">Peaking</option>
+                                <option value="notch">Notch</option>
+                            </select>
+                        </div>
+                        <div class="reverbContainer">Reverb Type
+                            <select id="seqConvolverSelectList">
+                                <option value="off">Deaktiviert</option>
+                                <option value="cave">Cave</option>
+                                <option value="church">Church</option>
+                                <option value="garage">Garage</option>
+                                <option value="room">Room</option>
+                            </select>
+                        </div>
+                        <div id="seqQContainer"> Quality
+                            <input type="range" min="0" max="100" value="0" class="slider" id="seqQualitySlider">
+                            <span id="seqQualityOutput">0</span>
+                        </div>
+                    </div>
                 </div>
-                <div id="frequencyContainer"> Frequency
-                    <input type="range" min="1000" max="20000" value="1000" class="slider" id="seqFrequencySlider">
-                    <span id="seqFrequencyOutput">1000 Hz</span>
-                </div>   
-                <div id="filterTypeContainer">Filter Type
-                    <select id="seqFilterSelectList">
-                        <option value="allpass">Allpass</option>
-                        <option value="lowpass">Lowpass</option>
-                        <option value="highpass">Highpass</option>
-                        <option value="bandpass">Bandpass</option>
-                        <option value="lowshelf">lowshelf</option>
-                        <option value="highshelf">highshelf</option>
-                        <option value="peaking">Peaking</option>
-                        <option value="notch">Notch</option>
-                    </select>
-                </div>
-                <div id="reverbContainer">Reverb Type
-                    <select id="seqConvolverSelectList">
-                        <option value="off">Deaktiviert</option>
-                        <option value="cave">Cave</option>
-                        <option value="church">Church</option>
-                        <option value="garage">Garage</option>
-                        <option value="room">Room</option>
-                    </select>
-                </div>
-                <div id="seqQContainer"> Quality
-                    <input type="range" min="0" max="100" value="0" class="slider" id="seqQualitySlider">
-                    <span id="seqQualityOutput">0</span>
-                </div>
+
             </div>
         </div>
     </div>
     <!-- Bottle = Sequences ENDE-->
 
     <!-- Keyboard = Pads -->
-    <div class="bg-light card mb-2" id="keyboard">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="keyboard">
         <div class="card-header">keyboard
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="keyboard-gainSlider">
-                    <span id="keyboard-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/pad.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        <div>
+                            Gain
+                            <input type="range" min="0" max="100" value="0" class="slider" id="keyboard-gainSlider">
+                            <span id="keyboard-gainOutput">1.0 dB</span>
+                        </div>
+                        <div class="frequencyContainer"> Frequency
+                            <input type="range" min="1000" max="20000" value="1000" class="slider"
+                                   id="padsFrequencySlider">
+                            <span id="padsFrequencyOutput">1000 Hz</span>
+                        </div>
+                        <div class="filterTypeContainer">Filter Type
+                            <select id="padsFilterSelectList">
+                                <option value="allpass">Allpass</option>
+                                <option value="lowpass">Lowpass</option>
+                                <option value="highpass">Highpass</option>
+                                <option value="bandpass">Bandpass</option>
+                                <option value="lowshelf">lowshelf</option>
+                                <option value="highshelf">highshelf</option>
+                                <option value="peaking">Peaking</option>
+                                <option value="notch">Notch</option>
+                            </select>
+                        </div>
+                        <div class="reverbContainer">Reverb Type
+                            <select id="padsConvolverSelectList">
+                                <option value="off">Deaktiviert</option>
+                                <option value="cave">Cave</option>
+                                <option value="church">Church</option>
+                                <option value="garage">Garage</option>
+                                <option value="room">Room</option>
+                            </select>
+                        </div>
+                        <div id="padsQContainer"> Quality
+                            <input type="range" min="0" max="100" value="0" class="slider" id="padsQualitySlider">
+                            <span id="padsQualityOutput">0</span>
+                        </div>
+                    </div>
                 </div>
-                <div id="frequencyContainer"> Frequency
-                    <input type="range" min="1000" max="20000" value="1000" class="slider" id="padsFrequencySlider">
-                    <span id="padsFrequencyOutput">1000 Hz</span>
-                </div>   
-                <div id="filterTypeContainer">Filter Type
-                    <select id="padsFilterSelectList">
-                        <option value="allpass">Allpass</option>
-                        <option value="lowpass">Lowpass</option>
-                        <option value="highpass">Highpass</option>
-                        <option value="bandpass">Bandpass</option>
-                        <option value="lowshelf">lowshelf</option>
-                        <option value="highshelf">highshelf</option>
-                        <option value="peaking">Peaking</option>
-                        <option value="notch">Notch</option>
-                    </select>
-                </div>
-                <div id="reverbContainer">Reverb Type
-                    <select id="padsConvolverSelectList">
-                        <option value="off">Deaktiviert</option>
-                        <option value="cave">Cave</option>
-                        <option value="church">Church</option>
-                        <option value="garage">Garage</option>
-                        <option value="room">Room</option>
-                    </select>
-                </div>
-                <div id="padsQContainer"> Quality
-                    <input type="range" min="0" max="100" value="0" class="slider" id="padsQualitySlider">
-                    <span id="padsQualityOutput">0</span>
-                </div>
+
             </div>
         </div>
     </div>
     <!-- Keyboard = Pads ENDE-->
 
     <!-- Clock = Synth -->
-    <div class="bg-light card mb-2" id="clock">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="clock">
         <div class="card-header">clock
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="clock-gainSlider">
-                    <span id="clock-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/synthesizer.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+
+                        <div>
+                            Gain
+                            <input type="range" min="0" max="100" value="0" class="slider" id="clock-gainSlider">
+                            <span id="clock-gainOutput">1.0 dB</span>
+                        </div>
+                        <div class="frequencyContainer"> Frequency
+                            <input type="range" min="1000" max="20000" value="1000" class="slider"
+                                   id="synthFrequencySlider">
+                            <span id="synthFrequencyOutput">1000 Hz</span>
+                        </div>
+                        <div class="filterTypeContainer">Filter Type
+                            <select id="synthFilterSelectList">
+                                <option value="allpass">Allpass</option>
+                                <option value="lowpass">Lowpass</option>
+                                <option value="highpass">Highpass</option>
+                                <option value="bandpass">Bandpass</option>
+                                <option value="lowshelf">lowshelf</option>
+                                <option value="highshelf">highshelf</option>
+                                <option value="peaking">Peaking</option>
+                                <option value="notch">Notch</option>
+                            </select>
+                        </div>
+                        <div class="reverbContainer">Reverb Type
+                            <select id="synthConvolverSelectList">
+                                <option value="off">Deaktiviert</option>
+                                <option value="cave">Cave</option>
+                                <option value="church">Church</option>
+                                <option value="garage">Garage</option>
+                                <option value="room">Room</option>
+                            </select>
+                        </div>
+                        <div id="synthQContainer"> Quality
+                            <input type="range" min="0" max="100" value="0" class="slider" id="synthQualitySlider">
+                            <span id="synthQualityOutput">0</span>
+                        </div>
+                    </div>
                 </div>
-                <div id="frequencyContainer"> Frequency
-                    <input type="range" min="1000" max="20000" value="1000" class="slider" id="synthFrequencySlider">
-                    <span id="synthFrequencyOutput">1000 Hz</span>
-                </div>   
-                <div id="filterTypeContainer">Filter Type
-                    <select id="synthFilterSelectList">
-                        <option value="allpass">Allpass</option>
-                        <option value="lowpass">Lowpass</option>
-                        <option value="highpass">Highpass</option>
-                        <option value="bandpass">Bandpass</option>
-                        <option value="lowshelf">lowshelf</option>
-                        <option value="highshelf">highshelf</option>
-                        <option value="peaking">Peaking</option>
-                        <option value="notch">Notch</option>
-                    </select>
-                </div>
-                <div id="reverbContainer">Reverb Type
-                    <select id="synthConvolverSelectList">
-                        <option value="off">Deaktiviert</option>
-                        <option value="cave">Cave</option>
-                        <option value="church">Church</option>
-                        <option value="garage">Garage</option>
-                        <option value="room">Room</option>
-                    </select>
-                </div>
-                <div id="synthQContainer"> Quality
-                    <input type="range" min="0" max="100" value="0" class="slider" id="synthQualitySlider">
-                    <span id="synthQualityOutput">0</span>
-                </div>
+
             </div>
         </div>
     </div>
     <!-- Clock = Synth ENDE-->
 
     <!-- Mouse = Vocals -->
-    <div class="bg-light card mb-2" id="mouse">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="mouse">
         <div class="card-header">mouse
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="mouse-gainSlider">
-                    <span id="mouse-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/microphone.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        <div>
+                            Gain
+                            <input type="range" min="0" max="100" value="0" class="slider" id="mouse-gainSlider">
+                            <span id="mouse-gainOutput">1.0 dB</span>
+                        </div>
+                        <div class="frequencyContainer"> Frequency
+                            <input type="range" min="1000" max="20000" value="1000" class="slider"
+                                   id="vocalFrequencySlider">
+                            <span id="vocalFrequencyOutput">1000 Hz</span>
+                        </div>
+                        <div class="filterTypeContainer">Filter Type
+                            <select id="vocalFilterSelectList">
+                                <option value="allpass">Allpass</option>
+                                <option value="lowpass">Lowpass</option>
+                                <option value="highpass">Highpass</option>
+                                <option value="bandpass">Bandpass</option>
+                                <option value="lowshelf">lowshelf</option>
+                                <option value="highshelf">highshelf</option>
+                                <option value="peaking">Peaking</option>
+                                <option value="notch">Notch</option>
+                            </select>
+                        </div>
+                        <div class="reverbContainer">Reverb Type
+                            <select id="vocalConvolverSelectList">
+                                <option value="off">Deaktiviert</option>
+                                <option value="cave">Cave</option>
+                                <option value="church">Church</option>
+                                <option value="garage">Garage</option>
+                                <option value="room">Room</option>
+                            </select>
+                        </div>
+                        <div id="vocalQContainer"> Quality
+                            <input type="range" min="0" max="100" value="0" class="slider" id="vocalQualitySlider">
+                            <span id="vocalQualityOutput">0</span>
+                        </div>
+                    </div>
                 </div>
-                <div id="frequencyContainer"> Frequency
-                    <input type="range" min="1000" max="20000" value="1000" class="slider" id="vocalFrequencySlider">
-                    <span id="vocalFrequencyOutput">1000 Hz</span>
-                </div>   
-                <div id="filterTypeContainer">Filter Type
-                    <select id="vocalFilterSelectList">
-                        <option value="allpass">Allpass</option>
-                        <option value="lowpass">Lowpass</option>
-                        <option value="highpass">Highpass</option>
-                        <option value="bandpass">Bandpass</option>
-                        <option value="lowshelf">lowshelf</option>
-                        <option value="highshelf">highshelf</option>
-                        <option value="peaking">Peaking</option>
-                        <option value="notch">Notch</option>
-                    </select>
-                </div>
-                <div id="reverbContainer">Reverb Type
-                    <select id="vocalConvolverSelectList">
-                        <option value="off">Deaktiviert</option>
-                        <option value="cave">Cave</option>
-                        <option value="church">Church</option>
-                        <option value="garage">Garage</option>
-                        <option value="room">Room</option>
-                    </select>
-                </div>
-                <div id="vocalQContainer"> Quality
-                    <input type="range" min="0" max="100" value="0" class="slider" id="vocalQualitySlider">
-                    <span id="vocalQualityOutput">0</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -288,6 +364,7 @@
 <script src="socket.io.js"></script>
 <script src="sound.js"></script>
 <script src="receiveObjectsOnSocket.js"></script>
+<script src="features.js"></script>
 
 
 </body>
