@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Digital-7';
+    src: url('fonts/Digital-7Italic.woff2') format('woff2'),
+        url('fonts/Digital-7Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+
+
+.audio-track-background {
+    background-color: #6c757c;
+}
+
+.grey-border {
+    border: 5px solid #6c757c;
+}
+
+.blue-border {
+    border: 5px solid #18a2b8;
+}
+
+.music-instrument {
+    filter: drop-shadow(5px 5px 5px #444);
+}
+
+#timer {
+    width: 145px;
+    font-family: Digital-7;
+    font-size: 30px;
+    /* float: left; */
+    height: 38px;
+    /* text-align: center; */
+    /* vertical-align: text-top; */
+    line-height: 1;
+}

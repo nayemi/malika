@@ -1,5 +1,5 @@
 //globaler Play und Stop Button
-let playStopButton = document.getElementById("playStopButton");
+//let playStopButton = document.getElementById("playStopButton");
 isPlaying = false;
 
 // globaler audio context
@@ -89,7 +89,7 @@ synthGainSlider.addEventListener("input", function (e) {
 });
 
 //**********************
-// mouse = Synth
+// mouse = Vocals
 let vocalSound = new Audio("sounds/Vocals.mp3");
 let vocalSource = context.createMediaElementSource(vocalSound);
 let vocalGain = context.createGain();
@@ -108,7 +108,7 @@ vocalGainSlider.addEventListener("input", function (e) {
 
 //**********************
 //Event Listener für den globalen Play und Stop-Button
-playStopButton.addEventListener("click", function (e) {
+/*playStopButton.addEventListener("click", function (e) {
 
     if (isPlaying) {
         guitarSound.pause();
@@ -136,4 +136,58 @@ playStopButton.addEventListener("click", function (e) {
     }
 
     isPlaying = !isPlaying;
+});*/
+
+let playButton = document.getElementById("playButton");
+let pauseButton = document.getElementById("pauseButton");
+
+let firstTime = true;
+
+playButton.addEventListener("click", function (e) {
+
+    if (!isPlaying) {
+        if(firstTime) {
+            guitarGain.gain.value = 0; // only first time!!!
+            drumsGain.gain.value = 0;
+            seqGain.gain.value = 0;
+            padsGain.gain.value = 0;
+            synthGain.gain.value = 0;
+            vocalGain.gain.value = 0;
+            firstTime = false;
+        }
+
+        guitarSound.play();
+        drumsSound.play();
+        seqSound.play();
+        padsSound.play();
+        synthSound.play();
+        vocalSound.play();
+
+        this.classList.remove('btn-secondary');
+        this.classList.add('btn-info');
+
+        pauseButton.classList.remove('btn-info');
+        pauseButton.classList.add('btn-secondary');
+    }
+    isPlaying = true;
 });
+pauseButton.addEventListener("click", function (e) {
+
+    if (isPlaying) {
+        guitarSound.pause();
+        drumsSound.pause();
+        seqSound.pause();
+        padsSound.pause();
+        synthSound.pause();
+        vocalSound.pause();
+
+        this.classList.remove('btn-secondary');
+        this.classList.add('btn-info');
+
+        playButton.classList.remove('btn-info');
+        playButton.classList.add('btn-secondary');
+    }
+    isPlaying = false;
+});
+
+

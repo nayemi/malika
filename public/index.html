@@ -5,90 +5,141 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
-<body onload="initialize()">
+<body class="bg-dark" onload="initialize()">
 
-<h1>Malica - Musik mit Objekterkennung</h1>
-<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
 
-    <div class="card">
-        <div class="alert alert-success" role="alert" id="socket">offline</div>
-        <div class="alert alert-info" role="alert"  id="countItems">0</div>
+    <a class="navbar-brand left" href="#">MALICA</a>
+
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-secondary"><i class="fas fa-fast-backward"></i></button>
+        <button type="button" class="btn btn-secondary"><i class="fas fa-fast-forward"></i></button>
+        <button type="button" class="btn btn-secondary" id="stopButton"><i class="fas fa-stop"></i></button>
+        <button type="button" class="btn btn-secondary" id="playButton"><i class="fas fa-play"></i></button>
+        <button type="button" class="btn btn-secondary" id="pauseButton"><i class="fas fa-pause"></i></button>
     </div>
-</div>
 
+    <div class="btn-group pl-5" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-info disabled" id="countItems">Count: 0</button>
+        <button type="button" class="btn btn-secondary disabled" id="timer"><time>00:00:00</time></button>
+        <button type="button" class="btn btn-info disabled">
+            Main Volume:
+            <input type="range" min="0" max="100" value="0" class="slider" id="main-volume">
+        </button>
+    </div>
+</nav>
 
 
 <div id="container" class="container">
-<button class="btn btn-primary" id="playStopButton">Play Tracks</button>
+<!--    <button class="btn btn-primary" id="playStopButton">Play Tracks</button>-->
 
-    <div class="bg-light card mb-2" id="cup">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="cup">
         <div class="card-header">cup
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="cup-gainSlider">
-                    <span id="cup-gainOutput">1.0 dB</span>
-				</div>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/bass-guitar.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        Gain
+                        <input type="range" min="0" max="100" value="0" class="slider" id="cup-gainSlider">
+                        <span id="cup-gainOutput">1.0 dB</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="bg-light card mb-2" id="person">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="person">
         <div class="card-header">person
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="person-gainSlider">
-                    <span id="person-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/drum.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        Gain
+                        <input type="range" min="0" max="100" value="0" class="slider" id="person-gainSlider">
+                        <span id="person-gainOutput">1.0 dB</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="bg-light card mb-2" id="bottle">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="bottle">
         <div class="card-header">bottle
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="bottle-gainSlider">
-                    <span id="bottle-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/mixer.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        Gain
+                        <input type="range" min="0" max="100" value="0" class="slider" id="bottle-gainSlider">
+                        <span id="bottle-gainOutput">1.0 dB</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="bg-light card mb-2" id="keyboard">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="keyboard">
         <div class="card-header">keyboard
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="keyboard-gainSlider">
-                    <span id="keyboard-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/pad.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        Gain
+                        <input type="range" min="0" max="100" value="0" class="slider" id="keyboard-gainSlider">
+                        <span id="keyboard-gainOutput">1.0 dB</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="bg-light card mb-2" id="clock">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="clock">
         <div class="card-header">clock
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="clock-gainSlider">
-                    <span id="clock-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/synthesizer.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        Gain
+                        <input type="range" min="0" max="100" value="0" class="slider" id="clock-gainSlider">
+                        <span id="clock-gainOutput">1.0 dB</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="bg-light card mb-2" id="mouse">
+    <div class="audio-track-background grey-border card mb-2 text-white" id="mouse">
         <div class="card-header">mouse
             <div class="card-body">
-                <div>
-                    Gain
-                    <input type="range" min="0" max="100" value="0" class="slider" id="mouse-gainSlider">
-                    <span id="mouse-gainOutput">1.0 dB</span>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="images/microphone.png" alt="bass-guitar" width="70px" height="70px"
+                             class="music-instrument">
+                    </div>
+                    <div class="col-4">
+                        Gain
+                        <input type="range" min="0" max="100" value="0" class="slider"
+                               id="mouse-gainSlider">
+                        <span id="mouse-gainOutput">1.0 dB</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,7 +151,7 @@
 <script src="socket.io.js"></script>
 <script src="sound.js"></script>
 <script src="receiveObjectsOnSocket.js"></script>
-
+<script src="features.js"></script>
 
 </body>
 </html>

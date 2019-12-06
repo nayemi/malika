@@ -8,11 +8,11 @@ function setStatus(element, element_status, element_gain) {
         let element_output = document.getElementById(element + "-gainOutput");
 
         //default: bg-light is the class for inactive status = not playing
-        if ((" " + elementElement.className + " ").replace(/[\n\t]/g, " ").indexOf("bg-light") > -1) {
+        if ((" " + elementElement.className + " ").replace(/[\n\t]/g, " ").indexOf("grey-border") > -1) {
             if (element_status === '1') {
                 //make it visible
-                elementElement.classList.remove('bg-light');
-                elementElement.classList.add('bg-success');
+                elementElement.classList.remove('grey-border');
+                elementElement.classList.add('blue-border');
 
                 if( element_gain !== undefined){
                     console.log(element, element_gain);
@@ -25,8 +25,8 @@ function setStatus(element, element_status, element_gain) {
             // and is not in the list any more, hide it
             if (element_status === '0') {
 
-                elementElement.classList.remove('bg-success');
-                elementElement.classList.add('bg-light');
+                elementElement.classList.remove('blue-border');
+                elementElement.classList.add('grey-border');
 
                 if( element_gain !== undefined){
                     element_slider.value = 0;
@@ -41,13 +41,12 @@ function setStatus(element, element_status, element_gain) {
 function initialize() {
     var socket = io.connect();
 
-    document.getElementById("socket").innerHTML = `Verbindung hergestellt`;
 
     socket.on("objects", function (data) {
 
         let countItems = JSON.stringify(data.x);
         if (countItems !== undefined) {
-            document.getElementById("countItems").innerHTML = `Anzahl Gegenstände: ${countItems}`;
+            document.getElementById("countItems").innerHTML = `Count: ${countItems}`;
         }
 
         // data from tensor flow
