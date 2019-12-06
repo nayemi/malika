@@ -1,3 +1,21 @@
+//**********************
+//Objekt für den wavesufer
+//https://wavesurfer-js.org/
+var guitarWavesurfer = WaveSurfer.create({
+    container: '#guitarWaveform',
+    waveColor: 'violet',
+    progressColor: 'purple',
+    interact: false
+});
+var drumWavesurfer = WaveSurfer.create({
+    container: '#drumWaveform',
+    waveColor: 'violet',
+    progressColor: 'purple',
+    interact: false
+});
+
+
+
 //globaler Play und Stop Button
 let playStopButton = document.getElementById("playStopButton");
 isPlaying = false;
@@ -9,7 +27,8 @@ let context = new AudioContext();
 //**********************
 // cup = Bass
 let guitarSound = new Audio("sounds/Bass.mp3");
-wavesurfer.load('sounds/Bass.mp3');
+guitarWavesurfer.load('sounds/Bass.mp3');
+
 let isMuteGuitar = false;
 let guitarSource = context.createMediaElementSource(guitarSound);
 let guitarGain = context.createGain();
@@ -29,6 +48,8 @@ guitarGainSlider.addEventListener("input", function (e) {
 //**********************
 // person = drums
 let drumsSound = new Audio("sounds/Drums.mp3");
+drumWavesurfer.load('sounds/Drums.mp3');
+
 let drumsSource = context.createMediaElementSource(drumsSound);
 let drumsGain = context.createGain();
 drumsSource.connect(drumsGain);
@@ -120,6 +141,10 @@ playStopButton.addEventListener("click", function (e) {
         synthSound.pause();
         vocalSound.pause();
         playStopButton.innerHTML = "Play Tracks";
+
+        guitarWavesurfer.pause();
+        drumWavesurfer.pause();
+
     } else {
         guitarSound.play();
         guitarGain.gain.value = 0;
@@ -134,17 +159,17 @@ playStopButton.addEventListener("click", function (e) {
         vocalSound.play();
         vocalGain.gain.value = 0;
 
+
+        guitarWavesurfer.play();
+        guitarWavesurfer.setMute(true);
+        drumWavesurfer.play();
+        drumWavesurfer.setMute(true);
+
+
+
         playStopButton.innerHTML = "Stop Tracks";
     }
 
     isPlaying = !isPlaying;
 });
 
-//**********************
-//Objekt für den wavesufer 
-//https://wavesurfer-js.org/
-var wavesurfer = WaveSurfer.create({
-    container: '#waveform',
-    waveColor: 'violet',
-    progressColor: 'purple'
-});
