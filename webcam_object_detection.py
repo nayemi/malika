@@ -171,13 +171,6 @@ try:
                                 server.send(message='objects', data={str(possible_obj[item]): 1})
                             else:
                                 server.send(message='objects', data={str(possible_obj[item]): 0})
-                        # num_person = counter_arr['person']
-                        # if num_person >= 8:
-                        #     print('person detected')
-                        #     server.send(message='objects', data={'person': 1})
-                        # else:
-                        #     print('person lost')
-                        #     server.send(message='objects', data={'person': 0})
 
                         # delete state
                         current_object_names = []

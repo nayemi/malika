@@ -1,5 +1,4 @@
-//globaler Play und Stop Button
-//let playStopButton = document.getElementById("playStopButton");
+
 isPlaying = false;
 
 // globaler audio context
@@ -45,8 +44,6 @@ bassFilterSelectList.addEventListener("change", function (e) {
 
 // Bass Convolver
 var bassConvolverSelectList = document.getElementById("bassConvolverSelectList");
-
-//bassLoadImpulseResponse("cave");
 
 bassConvolverSelectList.addEventListener("change", function (e) {
     var bassName = bassConvolverSelectList.options[bassConvolverSelectList.selectedIndex].value;
@@ -131,8 +128,6 @@ drumsFilterSelectList.addEventListener("change", function (e) {
 // drums Convolver
 var drumsConvolverSelectList = document.getElementById("drumsConvolverSelectList");
 
-//drumsLoadImpulseResponse("cave");
-
 drumsConvolverSelectList.addEventListener("change", function (e) {
     var drumsName = drumsConvolverSelectList.options[drumsConvolverSelectList.selectedIndex].value;
 
@@ -214,7 +209,6 @@ seqFilterSelectList.addEventListener("change", function (e) {
 // seq Convolver
 var seqConvolverSelectList = document.getElementById("bassConvolverSelectList");
 
-//seqLoadImpulseResponse("cave");
 
 seqConvolverSelectList.addEventListener("change", function (e) {
     var seqName = seqConvolverSelectList.options[seqConvolverSelectList.selectedIndex].value;
@@ -228,7 +222,6 @@ seqConvolverSelectList.addEventListener("change", function (e) {
         seqFilter.disconnect(seqGain);
         seqFilter.connect(seqConvolver);
         seqConvolver.connect(seqGain);
-
 
         seqLoadImpulseResponse(seqName);
     }
@@ -297,8 +290,6 @@ padsFilterSelectList.addEventListener("change", function (e) {
 
 // pads Convolver
 var padsConvolverSelectList = document.getElementById("padsConvolverSelectList");
-
-//padsLoadImpulseResponse("cave");
 
 padsConvolverSelectList.addEventListener("change", function (e) {
     var padsName = padsConvolverSelectList.options[padsConvolverSelectList.selectedIndex].value;
@@ -381,7 +372,6 @@ synthFilterSelectList.addEventListener("change", function (e) {
 // synth Convolver
 var synthConvolverSelectList = document.getElementById("synthConvolverSelectList");
 
-//synthLoadImpulseResponse("cave");
 
 synthConvolverSelectList.addEventListener("change", function (e) {
     var synthName = synthConvolverSelectList.options[synthConvolverSelectList.selectedIndex].value;
@@ -464,7 +454,6 @@ vocalFilterSelectList.addEventListener("change", function (e) {
 // vocal Convolver
 var vocalConvolverSelectList = document.getElementById("vocalConvolverSelectList");
 
-//vocalLoadImpulseResponse("cave");
 
 vocalConvolverSelectList.addEventListener("change", function (e) {
     var vocalName = vocalConvolverSelectList.options[vocalConvolverSelectList.selectedIndex].value;

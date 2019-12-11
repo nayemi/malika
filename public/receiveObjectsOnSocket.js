@@ -2,8 +2,6 @@ function setStatus(element, element_status, element_gain) {
 
     if (element_status !== undefined && element_status !== null) {
         let elementElement = document.getElementById(element); //must be string!
-        //console.log(" name: " + element);
-        //console.log(" element_status: " + element_status);
         let element_slider = document.getElementById(element + "-gainSlider");
         let element_output = document.getElementById(element + "-gainOutput");
 
@@ -19,23 +17,6 @@ function setStatus(element, element_status, element_gain) {
                     element_slider.value = 1;
                     element_output.innerHTML = 1 + " dB";
                     element_gain.gain.value = 1;
-
-                    // switch (element) {
-                    //   case "cup":
-                    //     element_slider.value = cupGainValue;
-                    //     element_output.innerHTML = cupGainValue + " dB";
-                    //     element_gain.gain.value = cupGainValue;
-                    //     break;
-                    //   case "person":
-                    //     element_slider.value = cupGainValue;
-                    //     element_output.innerHTML = cupGainValue + " dB";
-                    //     element_gain.gain.value = cupGainValue;
-                    //     break;
-                    //
-                    //   default:
-                    //     //
-                    //     break;
-                    // }
                 }
             }
         } else { // if element is already visible
@@ -57,7 +38,6 @@ function setStatus(element, element_status, element_gain) {
 
 function initialize() {
     var socket = io.connect();
-
 
     socket.on("objects", function (data) {
 
