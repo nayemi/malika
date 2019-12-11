@@ -23,10 +23,11 @@ bassGain.connect(context.destination);
 
 // listener für den bass gain slider
 bassGainSlider = document.getElementById("cup-gainSlider");
+let cupGainValue;
 bassGainSlider.addEventListener("input", function (e) {
-    let gainValue = (this.value / 10);
-    document.getElementById("cup-gainOutput").innerHTML = gainValue + " dB";
-    bassGain.gain.value = gainValue;
+    cupGainValue = (this.value / 10);
+    document.getElementById("cup-gainOutput").innerHTML = cupGainValue + " dB";
+    bassGain.gain.value = cupGainValue;
 });
 
 // listener für den bass freq slider
@@ -38,7 +39,7 @@ bassFrequencySlider.addEventListener("input", function (e) {
 
 // Bass Filter
 var bassFilterSelectList = document.getElementById("bassFilterSelectList");
-bassFilterSelectList.addEventListener("change", function(e){
+bassFilterSelectList.addEventListener("change", function (e) {
     bassFilter.type = bassFilterSelectList.options[bassFilterSelectList.selectedIndex].value;
 });
 
@@ -47,34 +48,34 @@ var bassConvolverSelectList = document.getElementById("bassConvolverSelectList")
 
 //bassLoadImpulseResponse("cave");
 
-bassConvolverSelectList.addEventListener("change", function(e){
+bassConvolverSelectList.addEventListener("change", function (e) {
     var bassName = bassConvolverSelectList.options[bassConvolverSelectList.selectedIndex].value;
     //var bassConvolverOn = false;
-    if(bassName.includes("off")){
+    if (bassName.includes("off")) {
         bassFilter.disconnect(bassConvolver);
         bassConvolver.disconnect(bassGain);
         bassFilter.connect(bassGain);
-    }
-    else{
-        if(bassConvolverOn= false){
-            bassFilter.disconnect(bassGain);
-            bassFilter.connect(bassConvolver);
-            bassConvolver.connect(bassGain);
-        }
-        
+    } else {
+
+        bassFilter.disconnect(bassGain);
+        bassFilter.connect(bassConvolver);
+        bassConvolver.connect(bassGain);
+
         bassLoadImpulseResponse(bassName);
     }
 });
 
-function bassLoadImpulseResponse(bassName){
+function bassLoadImpulseResponse(bassName) {
     var request = new XMLHttpRequest();
-    request.open("GET",  ("sounds/impulseResponses/" + bassName + ".wav"), true);
+    request.open("GET", ("sounds/impulseResponses/" + bassName + ".wav"), true);
     request.responseType = "arraybuffer";
 
     request.onload = function () {
         var undecodedAudio = request.response;
         context.decodeAudioData(undecodedAudio, function (buffer) {
-            if (bassConvolver) {bassConvolver.disconnect(); }
+            if (bassConvolver) {
+                bassConvolver.disconnect();
+            }
             bassConvolver = context.createConvolver();
             bassConvolver.buffer = buffer;
             bassConvolver.normalize = true;
@@ -123,7 +124,7 @@ drumsFrequencySlider.addEventListener("input", function (e) {
 
 // drums Filter
 var drumsFilterSelectList = document.getElementById("drumsFilterSelectList");
-drumsFilterSelectList.addEventListener("change", function(e){
+drumsFilterSelectList.addEventListener("change", function (e) {
     drumsFilter.type = drumsFilterSelectList.options[drumsFilterSelectList.selectedIndex].value;
 });
 
@@ -132,34 +133,33 @@ var drumsConvolverSelectList = document.getElementById("drumsConvolverSelectList
 
 //drumsLoadImpulseResponse("cave");
 
-drumsConvolverSelectList.addEventListener("change", function(e){
+drumsConvolverSelectList.addEventListener("change", function (e) {
     var drumsName = drumsConvolverSelectList.options[drumsConvolverSelectList.selectedIndex].value;
-    //var drumsConvolverOn = false;
-    if(drumsName.includes("off")){
+
+    if (drumsName.includes("off")) {
         drumsFilter.disconnect(drumsConvolver);
         drumsConvolver.disconnect(drumsGain);
         drumsFilter.connect(drumsGain);
-    }
-    else{
-        if(drumsConvolverOn= false){
-            drumsFilter.disconnect(drumsGain);
-            drumsFilter.connect(drumsConvolver);
-            drumsConvolver.connect(drumsGain);
-        }
-        
+    } else {
+        drumsFilter.disconnect(drumsGain);
+        drumsFilter.connect(drumsConvolver);
+        drumsConvolver.connect(drumsGain);
+
         drumsLoadImpulseResponse(drumsName);
     }
 });
 
-function drumsLoadImpulseResponse(drumsName){
+function drumsLoadImpulseResponse(drumsName) {
     var request = new XMLHttpRequest();
-    request.open("GET",  ("sounds/impulseResponses/" + drumsName + ".wav"), true);
+    request.open("GET", ("sounds/impulseResponses/" + drumsName + ".wav"), true);
     request.responseType = "arraybuffer";
 
     request.onload = function () {
         var undecodedAudio = request.response;
         context.decodeAudioData(undecodedAudio, function (buffer) {
-            if (drumsConvolver) {drumsConvolver.disconnect(); }
+            if (drumsConvolver) {
+                drumsConvolver.disconnect();
+            }
             drumsConvolver = context.createConvolver();
             drumsConvolver.buffer = buffer;
             drumsConvolver.normalize = true;
@@ -176,7 +176,6 @@ drumsQualitySlider.addEventListener("input", function (e) {
     drumsFilter.Q.value = (this.value);
     document.getElementById("drumsQualityOutput").innerHTML = (this.value) + " ";
 });
-
 
 
 //**********************
@@ -208,7 +207,7 @@ seqFrequencySlider.addEventListener("input", function (e) {
 
 // seq Filter
 var seqFilterSelectList = document.getElementById("seqFilterSelectList");
-seqFilterSelectList.addEventListener("change", function(e){
+seqFilterSelectList.addEventListener("change", function (e) {
     seqFilter.type = seqFilterSelectList.options[seqFilterSelectList.selectedIndex].value;
 });
 
@@ -217,34 +216,35 @@ var seqConvolverSelectList = document.getElementById("bassConvolverSelectList");
 
 //seqLoadImpulseResponse("cave");
 
-seqConvolverSelectList.addEventListener("change", function(e){
+seqConvolverSelectList.addEventListener("change", function (e) {
     var seqName = seqConvolverSelectList.options[seqConvolverSelectList.selectedIndex].value;
     //var seqConvolverOn = false;
-    if(seqName.includes("off")){
+    if (seqName.includes("off")) {
         seqFilter.disconnect(seqConvolver);
         seqConvolver.disconnect(seqGain);
-        seqFilter.connect(seqsGain);
-    }
-    else{
-        if(seqConvolverOn= false){
-            seqFilter.disconnect(seqGain);
-            seqFilter.connect(seqConvolver);
-            seqConvolver.connect(seqGain);
-        }
-        
+        seqFilter.connect(seqGain);
+    } else {
+
+        seqFilter.disconnect(seqGain);
+        seqFilter.connect(seqConvolver);
+        seqConvolver.connect(seqGain);
+
+
         seqLoadImpulseResponse(seqName);
     }
 });
 
-function seqLoadImpulseResponse(seqName){
+function seqLoadImpulseResponse(seqName) {
     var request = new XMLHttpRequest();
-    request.open("GET",  ("sounds/impulseResponses/" + seqName + ".wav"), true);
+    request.open("GET", ("sounds/impulseResponses/" + seqName + ".wav"), true);
     request.responseType = "arraybuffer";
 
     request.onload = function () {
         var undecodedAudio = request.response;
         context.decodeAudioData(undecodedAudio, function (buffer) {
-            if (seqConvolver) {seqsConvolver.disconnect(); }
+            if (seqConvolver) {
+                seqConvolver.disconnect();
+            }
             seqConvolver = context.createConvolver();
             seqConvolver.buffer = buffer;
             seqConvolver.normalize = true;
@@ -291,8 +291,8 @@ padsFrequencySlider.addEventListener("input", function (e) {
 
 // padsFilter
 var padsFilterSelectList = document.getElementById("padsFilterSelectList");
-padsFilterSelectList.addEventListener("change", function(e){
-    bpadsFilter.type = padsFilterSelectList.options[padsFilterSelectList.selectedIndex].value;
+padsFilterSelectList.addEventListener("change", function (e) {
+    padsFilter.type = padsFilterSelectList.options[padsFilterSelectList.selectedIndex].value;
 });
 
 // pads Convolver
@@ -300,34 +300,34 @@ var padsConvolverSelectList = document.getElementById("padsConvolverSelectList")
 
 //padsLoadImpulseResponse("cave");
 
-padsConvolverSelectList.addEventListener("change", function(e){
+padsConvolverSelectList.addEventListener("change", function (e) {
     var padsName = padsConvolverSelectList.options[padsConvolverSelectList.selectedIndex].value;
-    //var padsConvolverOn = false;
-    if(padsName.includes("off")){
+
+    if (padsName.includes("off")) {
         padsFilter.disconnect(padsConvolver);
         padsConvolver.disconnect(padsGain);
         padsFilter.connect(padsGain);
-    }
-    else{
-        if(padsConvolverOn= false){
-            padsFilter.disconnect(padsGain);
-            padsFilter.connect(padsConvolver);
-            padsConvolver.connect(padsGain);
-        }
-        
+    } else {
+
+        padsFilter.disconnect(padsGain);
+        padsFilter.connect(padsConvolver);
+        padsConvolver.connect(padsGain);
+
         padsLoadImpulseResponse(padsName);
     }
 });
 
-function padsLoadImpulseResponse(padsName){
+function padsLoadImpulseResponse(padsName) {
     var request = new XMLHttpRequest();
-    request.open("GET",  ("sounds/impulseResponses/" + padsName + ".wav"), true);
+    request.open("GET", ("sounds/impulseResponses/" + padsName + ".wav"), true);
     request.responseType = "arraybuffer";
 
     request.onload = function () {
         var undecodedAudio = request.response;
         context.decodeAudioData(undecodedAudio, function (buffer) {
-            if (padsConvolver) {padsConvolver.disconnect(); }
+            if (padsConvolver) {
+                padsConvolver.disconnect();
+            }
             padsConvolver = context.createConvolver();
             padsConvolver.buffer = buffer;
             padsConvolver.normalize = true;
@@ -374,7 +374,7 @@ synthFrequencySlider.addEventListener("input", function (e) {
 
 // synth Filter
 var synthFilterSelectList = document.getElementById("synthFilterSelectList");
-synthFilterSelectList.addEventListener("change", function(e){
+synthFilterSelectList.addEventListener("change", function (e) {
     synthFilter.type = synthFilterSelectList.options[synthFilterSelectList.selectedIndex].value;
 });
 
@@ -383,34 +383,34 @@ var synthConvolverSelectList = document.getElementById("synthConvolverSelectList
 
 //synthLoadImpulseResponse("cave");
 
-synthConvolverSelectList.addEventListener("change", function(e){
+synthConvolverSelectList.addEventListener("change", function (e) {
     var synthName = synthConvolverSelectList.options[synthConvolverSelectList.selectedIndex].value;
-    //var synthConvolverOn = false;
-    if(synthName.includes("off")){
+
+    if (synthName.includes("off")) {
         synthFilter.disconnect(synthConvolver);
         synthConvolver.disconnect(synthGain);
         synthFilter.connect(synthGain);
-    }
-    else{
-        if(synthConvolverOn= false){
-            synthFilter.disconnect(synthGain);
-            synthFilter.connect(synthConvolver);
-            synthConvolver.connect(synthGain);
-        }
-        
+    } else {
+
+        synthFilter.disconnect(synthGain);
+        synthFilter.connect(synthConvolver);
+        synthConvolver.connect(synthGain);
+
         synthLoadImpulseResponse(synthName);
     }
 });
 
-function synthLoadImpulseResponse(synthName){
+function synthLoadImpulseResponse(synthName) {
     var request = new XMLHttpRequest();
-    request.open("GET",  ("sounds/impulseResponses/" + synthName + ".wav"), true);
+    request.open("GET", ("sounds/impulseResponses/" + synthName + ".wav"), true);
     request.responseType = "arraybuffer";
 
     request.onload = function () {
         var undecodedAudio = request.response;
         context.decodeAudioData(undecodedAudio, function (buffer) {
-            if (synthConvolver) {synthConvolver.disconnect(); }
+            if (synthConvolver) {
+                synthConvolver.disconnect();
+            }
             synthConvolver = context.createConvolver();
             synthConvolver.buffer = buffer;
             synthConvolver.normalize = true;
@@ -457,7 +457,7 @@ vocalFrequencySlider.addEventListener("input", function (e) {
 
 // vocal Filter
 var vocalFilterSelectList = document.getElementById("vocalFilterSelectList");
-vocalFilterSelectList.addEventListener("change", function(e){
+vocalFilterSelectList.addEventListener("change", function (e) {
     vocalFilter.type = vocalFilterSelectList.options[vocalFilterSelectList.selectedIndex].value;
 });
 
@@ -466,34 +466,35 @@ var vocalConvolverSelectList = document.getElementById("vocalConvolverSelectList
 
 //vocalLoadImpulseResponse("cave");
 
-vocalConvolverSelectList.addEventListener("change", function(e){
+vocalConvolverSelectList.addEventListener("change", function (e) {
     var vocalName = vocalConvolverSelectList.options[vocalConvolverSelectList.selectedIndex].value;
-    //var vocalConvolverOn = false;
-    if(vocalName.includes("off")){
+
+    if (vocalName.includes("off")) {
         vocalFilter.disconnect(vocalConvolver);
         vocalConvolver.disconnect(vocalGain);
         vocalFilter.connect(vocalsGain);
-    }
-    else{
-        if(vocalConvolverOn= false){
-            vocalFilter.disconnect(vocalGain);
-            vocalFilter.connect(vocalConvolver);
-            vocalConvolver.connect(vocalGain);
-        }
-        
+    } else {
+
+        vocalFilter.disconnect(vocalGain);
+        vocalFilter.connect(vocalConvolver);
+        vocalConvolver.connect(vocalGain);
+
+
         vocalLoadImpulseResponse(vocalName);
     }
 });
 
-function vocalLoadImpulseResponse(vocalName){
+function vocalLoadImpulseResponse(vocalName) {
     var request = new XMLHttpRequest();
-    request.open("GET",  ("sounds/impulseResponses/" + vocalName + ".wav"), true);
+    request.open("GET", ("sounds/impulseResponses/" + vocalName + ".wav"), true);
     request.responseType = "arraybuffer";
 
     request.onload = function () {
         var undecodedAudio = request.response;
         context.decodeAudioData(undecodedAudio, function (buffer) {
-            if (vocalConvolver) {vocalConvolver.disconnect(); }
+            if (vocalConvolver) {
+                vocalConvolver.disconnect();
+            }
             vocalConvolver = context.createConvolver();
             vocalConvolver.buffer = buffer;
             vocalConvolver.normalize = true;
@@ -512,36 +513,6 @@ vocalQualitySlider.addEventListener("input", function (e) {
 });
 
 
-//**********************
-//Event Listener für den globalen Play und Stop-Button
-// playStopButton.addEventListener("click", function (e) {
-//     if (isPlaying) {
-//         bassSound.pause();
-//         drumsSound.pause();
-//         seqSound.pause();
-//         padsSound.pause();
-//         synthSound.pause();
-//         vocalSound.pause();
-//         playStopButton.innerHTML = "Play Tracks";
-//     } else {
-//         bassSound.play();
-//         bassGain.gain.value = 0;
-//         drumsSound.play();
-//         drumsGain.gain.value = 0;
-//         seqSound.play();
-//         seqGain.gain.value = 0;
-//         padsSound.play();
-//         padsGain.gain.value = 0;
-//         synthSound.play();
-//         synthGain.gain.value = 0;
-//         vocalSound.play();
-//         vocalGain.gain.value = 0;
-//         playStopButton.innerHTML = "Stop Tracks";
-//     }
-//     isPlaying = !isPlaying;
-// });
-
-
 let playButton = document.getElementById("playButton");
 let pauseButton = document.getElementById("pauseButton");
 
@@ -550,7 +521,7 @@ let firstTime = true;
 playButton.addEventListener("click", function (e) {
 
     if (!isPlaying) {
-        if(firstTime) {
+        if (firstTime) {
             bassGain.gain.value = 0; // only first time!!!
             drumsGain.gain.value = 0;
             seqGain.gain.value = 0;
@@ -619,22 +590,3 @@ pauseButton.addEventListener("click", function (e) {
     isPlaying = false;
 });
 
-
-// let stopButton = document.getElementById("stopButton");
-//
-// stopButton.addEventListener("click", function (e) {
-//
-//     console.log("clicked stop");
-//
-//
-//     bassSound.stop();
-//         drumsSound.stop();
-//         seqSound.stop();
-//         padsSound.stop();
-//         synthSound.stop();
-//         vocalSound.stop();
-//
-//         this.classList.remove('btn-secondary');
-//         this.classList.add('btn-info');
-//
-// });

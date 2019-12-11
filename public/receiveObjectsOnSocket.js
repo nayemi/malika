@@ -14,11 +14,28 @@ function setStatus(element, element_status, element_gain) {
                 elementElement.classList.remove('grey-border');
                 elementElement.classList.add('blue-border');
 
-                if( element_gain !== undefined){
+                if (element_gain !== undefined) {
                     console.log(element, element_gain);
                     element_slider.value = 1;
                     element_output.innerHTML = 1 + " dB";
                     element_gain.gain.value = 1;
+
+                    // switch (element) {
+                    //   case "cup":
+                    //     element_slider.value = cupGainValue;
+                    //     element_output.innerHTML = cupGainValue + " dB";
+                    //     element_gain.gain.value = cupGainValue;
+                    //     break;
+                    //   case "person":
+                    //     element_slider.value = cupGainValue;
+                    //     element_output.innerHTML = cupGainValue + " dB";
+                    //     element_gain.gain.value = cupGainValue;
+                    //     break;
+                    //
+                    //   default:
+                    //     //
+                    //     break;
+                    // }
                 }
             }
         } else { // if element is already visible
@@ -28,7 +45,7 @@ function setStatus(element, element_status, element_gain) {
                 elementElement.classList.remove('blue-border');
                 elementElement.classList.add('grey-border');
 
-                if( element_gain !== undefined){
+                if (element_gain !== undefined) {
                     element_slider.value = 0;
                     element_output.innerHTML = 0 + " dB";
                     element_gain.gain.value = 0;
@@ -58,7 +75,7 @@ function initialize() {
         let mouse_status = JSON.stringify(data.mouse);
 
         // set status for each object and instrument
-        if(isPlaying){
+        if (isPlaying) {
             setStatus('person', person_status, drumsGain);
             setStatus('bottle', bottle_status, seqGain);
             setStatus('cup', cup_status, bassGain);
