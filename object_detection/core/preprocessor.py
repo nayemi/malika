@@ -2902,7 +2902,7 @@ def scale_boxes_to_pixel_coordinates(image, boxes, keypoints=None):
 
 # TODO(alirezafathi): Investigate if instead the function should return None if
 # masks is None.
-# pylint: disable=g-doc-return-or-yield
+# pylint: disable=g-dokumentation-return-or-yield
 def resize_image(image,
                  masks=None,
                  new_height=600,
